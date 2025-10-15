@@ -1,0 +1,7 @@
+{
+  "name": "fuelup-tri",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
