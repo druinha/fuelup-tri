@@ -1,0 +1,37 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{ day }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div *ngIf="workout; else noWorkout">
+      <ion-item lines="none">
+        <ion-icon [name]="workoutIcon(workout.type)" slot="start"></ion-icon>
+        <ion-label>
+          {{ workoutLabel(workout.type) }}
+          <div *ngIf="workout.distance || workout.duration">
+            {{ workout.distance }} {{ workout.duration }}
+          </div>
+          <div *ngIf="workout.zones?.length">
+            {{ workout.zones.join(', ') }}
+          </div>
+          <div *ngIf="workout.comments">{{ workout.comments }}</div>
+        </ion-label>
+      </ion-item>
+
+      <ion-button fill="clear" size="small" color="primary" (click)="edit.emit()">
+        Editar
+      </ion-button>
+      <ion-button fill="clear" size="small" color="danger" (click)="delete.emit()">
+        Borrar
+      </ion-button>
+    </div>
+
+    <ng-template #noWorkout>
+      <ion-text color="medium">Sin entrenar</ion-text>
+      <ion-button fill="clear" size="small" color="primary" (click)="add.emit()">
+        Añadir
+      </ion-button>
+    </ng-template>
+  </ion-card-content>
+</ion-card>

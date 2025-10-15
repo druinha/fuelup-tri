@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ day }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close.emit()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-segment [(ngModel)]="type">
+    <ion-segment-button *ngFor="let t of types" [value]="t.type">
+      <ion-icon [name]="t.icon"></ion-icon>
+      {{ t.label }}
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="type !== 'rest'" class="ion-margin-top">
+    <ion-item>
+      <ion-label position="floating">Distancia</ion-label>
+      <ion-input [(ngModel)]="distance" placeholder="ej: 5km"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Duración</ion-label>
+      <ion-input [(ngModel)]="duration" placeholder="ej: 45min"></ion-input>
+    </ion-item>
+
+    <ion-label>Zonas</ion-label>
+    <ion-chip *ngFor="let z of ZONES" [color]="selectedZones.includes(z)?'primary':'medium'" (click)="toggleZone(z)">
+      <ion-label>{{ z }}</ion-label>
+    </ion-chip>
+
+    <ion-item>
+      <ion-label position="floating">Comentarios</ion-label>
+      <ion-textarea [(ngModel)]="comments"></ion-textarea>
+    </ion-item>
+  </div>
+
+  <ion-button expand="block" color="primary" (click)="saveWorkout()" class="ion-margin-top">Guardar</ion-button>
+</ion-content>
