@@ -12,8 +12,8 @@
           <div *ngIf="workout.distance || workout.duration">
             {{ workout.distance }} {{ workout.duration }}
           </div>
-          <div *ngIf="workout.zones?.length">
-            {{ workout.zones.join(', ') }}
+          <div *ngIf="workout?.zones">
+            <!-- {{ workout.zones.join(', ') }} -->
           </div>
           <div *ngIf="workout.comments">{{ workout.comments }}</div>
         </ion-label>

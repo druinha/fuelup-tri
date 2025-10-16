@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Input, Output, EventEmitter } from '@angular/core';
 import { Workout, WorkoutType } from '../../model/workout.model';
+import { IonHeader, IonToolbar, IonTitle, IonButtons, IonContent, IonSegmentButton, IonButton, IonIcon, IonItem, IonLabel, IonChip } from "@ionic/angular/standalone";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-workout-dialog',
   templateUrl: './workout-dialog.component.html',
+  standalone: true,
   styleUrls: ['./workout-dialog.component.scss'],
+  imports: [IonChip, IonLabel, IonItem, IonIcon, IonButton, IonSegmentButton, IonContent, IonButtons, IonTitle, IonToolbar, CommonModule, IonHeader, FormsModule]
 })
 export class WorkoutDialogComponent  implements OnInit {
 

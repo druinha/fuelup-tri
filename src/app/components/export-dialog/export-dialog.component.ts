@@ -2,9 +2,12 @@ import { Component, Input } from '@angular/core';
 import { Workout } from 'src/app/model/workout.model';
 import { format, startOfWeek, endOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-export-dialog',
+  standalone: true,
+  imports: [IonButton, IonTextarea, IonContent, IonTitle, IonToolbar, IonHeader, ],
   templateUrl: './export-dialog.component.html',
   styleUrls: ['./export-dialog.component.scss'],
 })
