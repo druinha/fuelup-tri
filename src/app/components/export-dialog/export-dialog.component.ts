@@ -2,14 +2,16 @@ import { Component, Input } from '@angular/core';
 import { Workout } from 'src/app/model/workout.model';
 import { format, startOfWeek, endOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton, IonButtons, IonIcon } from "@ionic/angular/standalone";
+import { ModalController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-export-dialog',
   standalone: true,
-  imports: [IonButton, IonTextarea, IonContent, IonTitle, IonToolbar, IonHeader, ],
+  imports: [IonIcon, IonButtons, IonButton, IonTextarea, IonContent, IonTitle, IonToolbar, IonHeader, ],
   templateUrl: './export-dialog.component.html',
   styleUrls: ['./export-dialog.component.scss'],
+  providers: [ModalController]
 })
 export class ExportDialogComponent {
 
@@ -17,10 +19,17 @@ export class ExportDialogComponent {
   @Input() weekStart!: Date;
   @Input() days: string[] = [];
 
+  constructor(private modalCtrl: ModalController) {}
+
+  formatDate(date: Date, pattern: string) {
+    return format(date, pattern, { locale: es });
+  }
+
   generateText() {
     const start = startOfWeek(this.weekStart, { weekStartsOn: 1 });
     const end = endOfWeek(this.weekStart, { weekStartsOn: 1 });
-    let text = `SEMANA DEL ${format(start, 'd', { locale: es })} AL ${format(end, "d 'DE' MMMM", { locale: es }).toUpperCase()}\n\n`;
+
+    let text = `SEMANA DEL ${this.formatDate(start, "d 'de' MMMM")} AL ${this.formatDate(end, "d 'de' MMMM yyyy").toUpperCase()}\n\n`;
 
     const labels: Record<string, string> = {
       rest: 'DESCANSO',
@@ -31,17 +40,14 @@ export class ExportDialogComponent {
 
     this.days.forEach(day => {
       text += `${day}\n`;
-
       const workout = this.workouts[day];
-
       if (!workout || workout.type === 'rest') {
         text += 'DESCANSO\n\n';
       } else {
         text += `${labels[workout.type]}\n`;
-
         if (workout.blocks?.length) {
           workout.blocks.forEach(block => {
-            text += `  - ${block.nombre ? block.nombre.toUpperCase() : 'Bloque'}: `;
+            text += `  - ${block.nombre?.toUpperCase() || 'BLOQUE'}: `;
             if (block.distancia) text += `${block.distancia} `;
             if (block.duracion) text += `${block.duracion} `;
             if (block.ritmo) text += `(Ritmo/Zona: ${block.ritmo}) `;
@@ -50,25 +56,31 @@ export class ExportDialogComponent {
             text += `\n`;
           });
         }
-
-        if (workout.comments) {
-          text += `\nComentarios generales: ${workout.comments}\n`;
-        }
-
-        text += `\n`;
+        if (workout.comments) text += `\nComentarios: ${workout.comments}\n`;
+        text += '\n';
       }
     });
 
     return text;
   }
 
-  copyToClipboard() {
-    navigator.clipboard.writeText(this.generateText());
-    alert('Copiado al portapapeles!');
+  async saveToFile() {
+    const text = this.generateText();
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Entrenamientos_${this.formatDate(this.weekStart, 'dd-MM-yyyy')}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   shareWhatsApp() {
     const url = `https://wa.me/?text=${encodeURIComponent(this.generateText())}`;
     window.open(url, '_blank');
+  }
+
+  close() {
+    this.modalCtrl.dismiss();
   }
 }

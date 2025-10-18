@@ -1,12 +1,22 @@
-<!-- export-dialog.component.html -->
 <ion-header>
   <ion-toolbar>
-    <ion-title>Exportar Entrenamiento</ion-title>
+    <ion-title>Exportar Semana</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Cerrar</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-textarea [value]="generateText()" readonly></ion-textarea>
-  <ion-button expand="block" color="primary" (click)="copyToClipboard()">Copiar</ion-button>
-  <ion-button expand="block" color="success" (click)="shareWhatsApp()">WhatsApp</ion-button>
+  <ion-textarea readonly autoGrow [value]="generateText()"></ion-textarea>
+
+  <ion-button expand="block" color="success" (click)="shareWhatsApp()">
+    <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
+    Enviar por WhatsApp
+  </ion-button>
+
+  <ion-button expand="block" color="primary" (click)="saveToFile()">
+    <ion-icon name="download-outline" slot="start"></ion-icon>
+    Guardar como archivo
+  </ion-button>
 </ion-content>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, ModalController  } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, ModalController, IonFab, IonFabButton, IonIcon  } from '@ionic/angular/standalone';
 import { Workout } from '../model/workout.model';
 import { addWeeks, subWeeks, startOfWeek, endOfWeek, format } from 'date-fns';
 import { WeekHeaderComponent } from '../components/week-header/week-header.component';
@@ -20,7 +20,8 @@ const DAYS = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "
       WeekHeaderComponent,
       DayCardComponent,
       ExportDialogComponent,
-      WorkoutDialogComponent
+      WorkoutDialogComponent,
+      IonFab, IonFabButton, IonIcon
     ],
     providers: [ModalController]
 })
@@ -72,4 +73,18 @@ export class HomePage {
   nextWeek() {
     this.weekStart = addWeeks(this.weekStart, 1);
   }
+
+  async openExportModal() {
+  const modal = await this.modalCtrl.create({
+    component: ExportDialogComponent,
+    componentProps: {
+      workouts: this.workouts,
+      weekStart: this.weekStart,
+      days: this.days
+    },
+    cssClass: 'export-modal'
+  });
+
+  await modal.present();
+}
 }
