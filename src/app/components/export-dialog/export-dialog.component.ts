@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { Workout } from 'src/app/model/workout.model';
 import { format, startOfWeek, endOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonTextarea, IonButton, IonButtons, IonIcon } from "@ionic/angular/standalone";
 import { ModalController } from '@ionic/angular/standalone';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-export-dialog',
@@ -19,64 +21,107 @@ export class ExportDialogComponent {
   @Input() weekStart!: Date;
   @Input() days: string[] = [];
 
+  @ViewChild('preview', { static: false }) previewEl!: ElementRef<HTMLDivElement>;
+
+  previewHTML = '';
+
   constructor(private modalCtrl: ModalController) {}
+
+  ngOnInit() {
+    this.generatePreview();
+  }
 
   formatDate(date: Date, pattern: string) {
     return format(date, pattern, { locale: es });
   }
 
-  generateText() {
+  /** ✅ Generate HTML preview inside the modal */
+  generatePreview() {
     const start = startOfWeek(this.weekStart, { weekStartsOn: 1 });
     const end = endOfWeek(this.weekStart, { weekStartsOn: 1 });
 
-    let text = `SEMANA DEL ${this.formatDate(start, "d 'de' MMMM")} AL ${this.formatDate(end, "d 'de' MMMM yyyy").toUpperCase()}\n\n`;
-
-    const labels: Record<string, string> = {
-      rest: 'DESCANSO',
-      running: 'CARRERA',
-      cycling: 'BICI',
-      swimming: 'NATACIÓN'
+    const icons: Record<string, string> = {
+      rest: '🛋️',
+      running: '🏃‍♂️',
+      cycling: '🚴‍♂️',
+      swimming: '🏊‍♂️'
     };
 
+    let html = `
+      <h2>Semana del ${this.formatDate(start, "d 'de' MMMM")} al ${this.formatDate(end, "d 'de' MMMM yyyy")}</h2>
+      <table class="preview-table">
+        <thead>
+          <tr><th>Día</th><th>Deporte</th><th>Detalles</th></tr>
+        </thead>
+        <tbody>
+    `;
+
     this.days.forEach(day => {
-      text += `${day}\n`;
       const workout = this.workouts[day];
+      const type = workout?.type ?? 'rest';
+      const icon = icons[type] || '❓';
+      let details = '';
+
       if (!workout || workout.type === 'rest') {
-        text += 'DESCANSO\n\n';
+        details = 'Descanso';
+      } else if (workout.blocks?.length) {
+        details = workout.blocks.map(block => `
+          <strong>${block.nombre?.toUpperCase() || 'BLOQUE'}</strong>:
+          ${block.distancia || ''} ${block.duracion || ''} 
+          ${block.ritmo ? `(Zona: ${block.ritmo})` : ''}
+          ${block.descanso ? `Descanso: ${block.descanso}` : ''}
+          ${block.comentarios ? `<div>${block.comentarios}</div>` : ''}
+        `).join('<hr>');
       } else {
-        text += `${labels[workout.type]}\n`;
-        if (workout.blocks?.length) {
-          workout.blocks.forEach(block => {
-            text += `  - ${block.nombre?.toUpperCase() || 'BLOQUE'}: `;
-            if (block.distancia) text += `${block.distancia} `;
-            if (block.duracion) text += `${block.duracion} `;
-            if (block.ritmo) text += `(Ritmo/Zona: ${block.ritmo}) `;
-            if (block.descanso) text += `Descanso: ${block.descanso}. `;
-            if (block.comentarios) text += `\n    ${block.comentarios}`;
-            text += `\n`;
-          });
-        }
-        if (workout.comments) text += `\nComentarios: ${workout.comments}\n`;
-        text += '\n';
+        details = `
+          ${workout.comments ? `Comentarios: ${workout.comments}` : ''}
+        `;
       }
+
+      html += `
+        <tr>
+          <td>${day}</td>
+          <td style="text-align:center">${icon}</td>
+          <td>${details}</td>
+        </tr>
+      `;
     });
 
-    return text;
+    html += `</tbody></table>`;
+    this.previewHTML = html;
   }
 
-  async saveToFile() {
-    const text = this.generateText();
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Entrenamientos_${this.formatDate(this.weekStart, 'dd-MM-yyyy')}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+  /** ✅ Generate & Download the PDF */
+  exportToPDF() {
+    const start = startOfWeek(this.weekStart, { weekStartsOn: 1 });
+    const end = endOfWeek(this.weekStart, { weekStartsOn: 1 });
+
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    doc.setFontSize(14);
+    doc.text(`SEMANA DEL ${this.formatDate(start, "d 'de' MMMM")} AL ${this.formatDate(end, "d 'de' MMMM yyyy")}`, 14, 15);
+
+    const rows: any[] = Array.from(this.previewEl.nativeElement.querySelectorAll('tbody tr') as NodeListOf<HTMLTableRowElement>)
+      .map((row: HTMLTableRowElement) => {
+        const cells = Array.from(row.querySelectorAll('td') as NodeListOf<HTMLTableCellElement>);
+        return cells.map(td => td.innerText.trim());
+      });
+
+    autoTable(doc, {
+      startY: 25,
+      head: [['Día', 'Deporte', 'Detalles']],
+      body: rows,
+      styles: { fontSize: 9, cellPadding: 3, valign: 'top' },
+      headStyles: { fillColor: [26, 115, 232], textColor: 255 },
+      columnStyles: { 0: { cellWidth: 35 }, 1: { cellWidth: 20 }, 2: { cellWidth: 130 } }
+    });
+
+    doc.save(`Entrenamientos_${this.formatDate(this.weekStart, 'dd-MM-yyyy')}.pdf`);
   }
 
+  /** ✅ Share via WhatsApp */
   shareWhatsApp() {
-    const url = `https://wa.me/?text=${encodeURIComponent(this.generateText())}`;
+    const text = this.previewEl.nativeElement.innerText.replace(/\s+/g, ' ').trim();
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   }
 

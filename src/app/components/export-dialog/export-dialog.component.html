@@ -1,22 +1,23 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Exportar Semana</ion-title>
+    <ion-title>Export Options</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">Cerrar</ion-button>
+      <ion-button (click)="close()">Back</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="ion-padding">
-  <ion-textarea readonly autoGrow [value]="generateText()"></ion-textarea>
+  <div #preview [innerHTML]="previewHTML" class="pdf-preview"></div>
 
   <ion-button expand="block" color="success" (click)="shareWhatsApp()">
     <ion-icon name="logo-whatsapp" slot="start"></ion-icon>
     Enviar por WhatsApp
   </ion-button>
 
-  <ion-button expand="block" color="primary" (click)="saveToFile()">
+  <ion-button expand="block" color="primary" (click)="exportToPDF()">
     <ion-icon name="download-outline" slot="start"></ion-icon>
-    Guardar como archivo
+    Descargar PDF
   </ion-button>
 </ion-content>
