@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, ModalController  } from '@ionic/angular/standalone';
 import { Workout } from '../model/workout.model';
 import { addWeeks, subWeeks, startOfWeek, endOfWeek } from 'date-fns';
 import { WeekHeaderComponent } from '../components/week-header/week-header.component';
@@ -24,7 +24,9 @@ const DAYS = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "
     ],
 })
 export class HomePage {
-  constructor() {}
+  constructor(
+    private modalCtrl: ModalController
+  ) {}
 
   workouts: Record<string, Workout> = {};
   selectedDay: string | null = null;
@@ -34,6 +36,24 @@ export class HomePage {
   selectDay(day: string) {
     this.selectedDay = day;
   }
+
+  async openWorkoutModal(day: string) {
+  const modal = await this.modalCtrl.create({
+    component: WorkoutDialogComponent,
+    componentProps: {
+      day,
+      workout: this.workouts[day] ?? null
+    },
+    cssClass: 'workout-modal',
+    backdropDismiss: true
+  });
+
+  const result = await modal.present();
+  modal.onDidDismiss().then(res => {
+    if (res.data?.workout) this.saveWorkout(day, res.data.workout);
+  });
+}
+
 
   saveWorkout(day: string, workout: Workout) {
     this.workouts[day] = workout;

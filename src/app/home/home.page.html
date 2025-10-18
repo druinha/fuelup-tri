@@ -4,7 +4,7 @@
 </app-week-header>
 
 <ion-content>
-  <div *ngFor="let day of days">
+  <div *ngFor="let day of days" (click)="openWorkoutModal(day)">
     <app-day-card
       [day]="day"
       [workout]="workouts[day]"
@@ -20,11 +20,4 @@
     </ion-fab-button>
   </ion-fab> -->
 
-  <app-workout-dialog
-    *ngIf="selectedDay"
-    [day]="selectedDay"
-    [workout]="workouts[selectedDay]"
-    (save)="saveWorkout(selectedDay!, $event)"
-    (close)="selectedDay=null">
-  </app-workout-dialog>
 </ion-content>
