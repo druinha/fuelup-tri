@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+
   <ion-segment [(ngModel)]="type">
     <ion-segment-button *ngFor="let t of types" [value]="t.type">
       <ion-icon [name]="t.icon"></ion-icon>
@@ -16,26 +17,62 @@
   </ion-segment>
 
   <div *ngIf="type !== 'rest'" class="ion-margin-top">
-    <ion-item>
-      <ion-label position="floating">Distancia</ion-label>
-      <ion-input [(ngModel)]="distance" placeholder="ej: 5km"></ion-input>
-    </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Duración</ion-label>
-      <ion-input [(ngModel)]="duration" placeholder="ej: 45min"></ion-input>
-    </ion-item>
+    <ion-list>
+      <ion-item-divider color="light">
+        <ion-label>Bloques del entrenamiento</ion-label>
+      </ion-item-divider>
 
-    <ion-label>Zonas</ion-label>
-    <ion-chip *ngFor="let z of ZONES" [color]="selectedZones.includes(z)?'primary':'medium'" (click)="toggleZone(z)">
-      <ion-label>{{ z }}</ion-label>
-    </ion-chip>
+      <div *ngFor="let block of blocks; let i = index" class="ion-margin-bottom ion-padding ion-border">
+        <ion-item>
+          <ion-label position="floating">Nombre del bloque</ion-label>
+          <ion-input [(ngModel)]="block.nombre" placeholder="Ej: Calentamiento"></ion-input>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Comentarios</ion-label>
-      <ion-textarea [(ngModel)]="comments"></ion-textarea>
-    </ion-item>
+        <ion-item>
+          <ion-label position="floating">Distancia</ion-label>
+          <ion-input [(ngModel)]="block.distancia" placeholder="Ej: 1000 m, 5 km..."></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Duración</ion-label>
+          <ion-input [(ngModel)]="block.duracion" placeholder="Ej: 45 min"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Ritmo / Zona</ion-label>
+          <ion-input [(ngModel)]="block.ritmo" placeholder="Ej: Z2, ritmo medio..."></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Descanso</ion-label>
+          <ion-input [(ngModel)]="block.descanso" placeholder="Ej: 30'' entre series"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Comentarios</ion-label>
+          <ion-textarea [(ngModel)]="block.comentarios" placeholder="Notas sobre técnica, sensaciones..."></ion-textarea>
+        </ion-item>
+
+        <ion-button color="danger" fill="clear" expand="block" (click)="eliminarBloque(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+          Eliminar bloque
+        </ion-button>
+      </div>
+
+      <ion-button expand="block" color="medium" fill="outline" (click)="agregarBloque()">
+        <ion-icon slot="start" name="add-outline"></ion-icon>
+        Añadir bloque
+      </ion-button>
+    </ion-list>
   </div>
 
-  <ion-button expand="block" color="primary" (click)="saveWorkout()" class="ion-margin-top">Guardar</ion-button>
+  <ion-item class="ion-margin-top">
+    <ion-label position="floating">Comentarios generales</ion-label>
+    <ion-textarea [(ngModel)]="comments"></ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" color="primary" (click)="saveWorkout()" class="ion-margin-top">
+    Guardar entrenamiento
+  </ion-button>
 </ion-content>

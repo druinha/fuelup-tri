@@ -8,14 +8,34 @@
       <ion-item lines="none">
         <ion-icon [name]="workoutIcon(workout.type)" slot="start"></ion-icon>
         <ion-label>
-          {{ workoutLabel(workout.type) }}
-          <div *ngIf="workout.distance || workout.duration">
-            {{ workout.distance }} {{ workout.duration }}
+          <strong>{{ workoutLabel(workout.type) }}</strong>
+          <div *ngIf="workout.comments" class="ion-text-wrap ion-margin-top">
+            <small>{{ workout.comments }}</small>
           </div>
-          <div *ngIf="workout?.zones"></div>
-          <div *ngIf="workout.comments">{{ workout.comments }}</div>
         </ion-label>
       </ion-item>
+
+      <div *ngIf="workout.blocks?.length" class="ion-margin-top">
+        <ion-list lines="none">
+          <ion-item *ngFor="let block of workout.blocks">
+            <ion-label class="ion-text-wrap">
+              <strong>{{ block.nombre || 'Bloque' }}</strong>
+              <div *ngIf="block.distancia || block.duracion" class="block-line">
+                {{ block.distancia || '' }} {{ block.duracion || '' }}
+              </div>
+              <div *ngIf="block.ritmo" class="block-line">
+                <em>Ritmo/Zona:</em> {{ block.ritmo }}
+              </div>
+              <div *ngIf="block.descanso" class="block-line">
+                <em>Descanso:</em> {{ block.descanso }}
+              </div>
+              <div *ngIf="block.comentarios" class="block-line">
+                {{ block.comentarios }}
+              </div>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
 
       <div class="action-buttons">
         <ion-button fill="clear" size="small" color="primary" (click)="edit.emit()">
@@ -30,10 +50,14 @@
     <ng-template #noWorkout>
       <div class="no-workout">
         <ion-text color="medium">Sin entrenar</ion-text>
-        <!-- Big + button on the right -->
         <button class="add-btn" (click)="add.emit()">
           <svg viewBox="0 0 24 24">
-            <path d="M12 5v14m-7-7h14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path
+              d="M12 5v14m-7-7h14"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
       </div>

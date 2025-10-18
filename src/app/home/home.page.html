@@ -3,6 +3,7 @@
   (weekChange)="weekStart = $event">
 </app-week-header>
 
+
 <ion-content>
   <div *ngFor="let day of days" (click)="openWorkoutModal(day)">
     <app-day-card

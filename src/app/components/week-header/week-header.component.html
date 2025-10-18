@@ -3,13 +3,13 @@
     <ion-buttons slot="start">
       <ion-button fill="clear" class="nav-btn" (click)="prevWeek()" aria-label="Previous week">
         <svg class="arrow-icon" viewBox="0 0 24 24">
-          <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         </svg>
       </ion-button>
     </ion-buttons>
 
     <ion-title class="toolbar-title">
-      <div class="date-range">
+      <div class="date-range" *ngIf="start && end">
         <div>Semana del {{ formatDate(start, 'd') }} al</div>
         <div>{{ formatDate(end, "d 'de' MMMM yyyy") }}</div>
       </div>
@@ -18,7 +18,7 @@
     <ion-buttons slot="end">
       <ion-button fill="clear" class="nav-btn" (click)="nextWeek()" aria-label="Next week">
         <svg class="arrow-icon" viewBox="0 0 24 24">
-          <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+          <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z" />
         </svg>
       </ion-button>
     </ion-buttons>

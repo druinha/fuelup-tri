@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonHeader, IonToolbar, IonTitle, IonContent, ModalController  } from '@ionic/angular/standalone';
 import { Workout } from '../model/workout.model';
-import { addWeeks, subWeeks, startOfWeek, endOfWeek } from 'date-fns';
+import { addWeeks, subWeeks, startOfWeek, endOfWeek, format } from 'date-fns';
 import { WeekHeaderComponent } from '../components/week-header/week-header.component';
 import { DayCardComponent } from '../components/day-card/day-card.component';
 import { ExportDialogComponent } from '../components/export-dialog/export-dialog.component';
@@ -22,6 +22,7 @@ const DAYS = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "
       ExportDialogComponent,
       WorkoutDialogComponent
     ],
+    providers: [ModalController]
 })
 export class HomePage {
   constructor(

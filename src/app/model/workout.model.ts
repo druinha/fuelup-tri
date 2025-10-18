@@ -2,8 +2,13 @@ export type WorkoutType = 'rest' | 'running' | 'cycling' | 'swimming';
 
 export interface Workout {
   type: WorkoutType;
-  distance?: string;
-  duration?: string;
-  zones?: string[];
   comments?: string;
+  blocks?: {
+    nombre: string;
+    distancia?: string;
+    duracion?: string;
+    ritmo?: string;
+    descanso?: string;
+    comentarios?: string;
+  }[];
 }
