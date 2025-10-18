@@ -1,0 +1,53 @@
+.workout-card {
+  position: relative;
+  margin: 12px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  ion-card-header {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .no-workout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .add-btn {
+    margin-left: auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #2193b0; /* primary color */
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    svg {
+      width: 28px;
+      height: 28px;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-top: 8px;
+  }
+}

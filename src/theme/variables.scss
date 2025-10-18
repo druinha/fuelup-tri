@@ -1,2 +1,14 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+
+
+:root {
+  /** PDCG Gradient Theme **/
+  --pdcg-gradient: linear-gradient(135deg, #2193b0, #6dd5ed);
+  --pdcg-gradient-sporty: linear-gradient(135deg, #ff416c, #ff4b2b);
+  --pdcg-gradient-fresh: linear-gradient(135deg, #00b09b, #96c93d);
+
+  /** Toolbar & Text **/
+  --pdcg-toolbar-text-color: #ffffff;
+  --pdcg-icon-color: #ffffff;
+}

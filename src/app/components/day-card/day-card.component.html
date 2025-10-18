@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card class="workout-card">
   <ion-card-header>
     <ion-card-title>{{ day }}</ion-card-title>
   </ion-card-header>
@@ -12,26 +12,31 @@
           <div *ngIf="workout.distance || workout.duration">
             {{ workout.distance }} {{ workout.duration }}
           </div>
-          <div *ngIf="workout?.zones">
-            <!-- {{ workout.zones.join(', ') }} -->
-          </div>
+          <div *ngIf="workout?.zones"></div>
           <div *ngIf="workout.comments">{{ workout.comments }}</div>
         </ion-label>
       </ion-item>
 
-      <ion-button fill="clear" size="small" color="primary" (click)="edit.emit()">
-        Editar
-      </ion-button>
-      <ion-button fill="clear" size="small" color="danger" (click)="delete.emit()">
-        Borrar
-      </ion-button>
+      <div class="action-buttons">
+        <ion-button fill="clear" size="small" color="primary" (click)="edit.emit()">
+          Editar
+        </ion-button>
+        <ion-button fill="clear" size="small" color="danger" (click)="delete.emit()">
+          Borrar
+        </ion-button>
+      </div>
     </div>
 
     <ng-template #noWorkout>
-      <ion-text color="medium">Sin entrenar</ion-text>
-      <ion-button fill="clear" size="small" color="primary" (click)="add.emit()">
-        Añadir
-      </ion-button>
+      <div class="no-workout">
+        <ion-text color="medium">Sin entrenar</ion-text>
+        <!-- Big + button on the right -->
+        <button class="add-btn" (click)="add.emit()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 5v14m-7-7h14" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
     </ng-template>
   </ion-card-content>
 </ion-card>

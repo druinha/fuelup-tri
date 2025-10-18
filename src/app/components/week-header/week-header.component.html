@@ -1,17 +1,26 @@
-<ion-toolbar color="primary">
-  <ion-buttons slot="start">
-    <ion-button fill="clear" (click)="prevWeek()">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" class="nav-btn" (click)="prevWeek()" aria-label="Previous week">
+        <svg class="arrow-icon" viewBox="0 0 24 24">
+          <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </ion-button>
+    </ion-buttons>
 
-  <ion-title class="ion-text-center">
-    Semana del {{ formatDate(start, 'd') }} al {{ formatDate(end, "d 'de' MMMM yyyy") }}
-  </ion-title>
+    <ion-title class="toolbar-title">
+      <div class="date-range">
+        <div>Semana del {{ formatDate(start, 'd') }} al</div>
+        <div>{{ formatDate(end, "d 'de' MMMM yyyy") }}</div>
+      </div>
+    </ion-title>
 
-  <ion-buttons slot="end">
-    <ion-button fill="clear" (click)="nextWeek()">
-      <ion-icon name="chevron-forward-outline"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-</ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="nav-btn" (click)="nextWeek()" aria-label="Next week">
+        <svg class="arrow-icon" viewBox="0 0 24 24">
+          <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z"/>
+        </svg>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

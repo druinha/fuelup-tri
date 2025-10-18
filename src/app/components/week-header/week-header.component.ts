@@ -2,14 +2,14 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { addWeeks, subWeeks, startOfWeek, endOfWeek, format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { intlFormatDistance } from 'date-fns';
-import { IonButtons, IonButton, IonToolbar, IonIcon, IonTitle } from "@ionic/angular/standalone";
+import { IonButtons, IonButton, IonToolbar, IonIcon, IonTitle, IonHeader } from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-week-header',
   standalone: true,
   templateUrl: './week-header.component.html',
   styleUrls: ['./week-header.component.scss'],
-  imports: [IonTitle, IonIcon, IonToolbar, IonButtons, IonButton, ],
+  imports: [IonHeader, IonTitle, IonIcon, IonToolbar, IonButtons, IonButton, ],
 })
 export class WeekHeaderComponent  {
 

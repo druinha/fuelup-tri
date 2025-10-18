@@ -1,0 +1,49 @@
+.custom-toolbar {
+  --background: linear-gradient(135deg, #2193b0, #6dd5ed);
+  --min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+
+  .toolbar-title {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .date-range {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    white-space: normal;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .nav-btn {
+    --background: transparent;
+    --padding-start: 0;
+    --padding-end: 0;
+    height: 44px;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .arrow-icon {
+      width: 26px;
+      height: 26px;
+      fill: #fff; /* Change this to whatever you want */
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    &:hover .arrow-icon {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+}
