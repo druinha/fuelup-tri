@@ -1,0 +1,53 @@
+.training-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 16px 0 24px 0;
+}
+
+.training-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  padding: 20px 10px;
+  font-weight: 600;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transition: all 0.25s ease;
+
+  .icon-wrapper svg {
+  width: 36px;
+  height: 36px;
+  fill: #ccc;
+  transition: fill 0.2s ease;
+}
+
+.training-option.selected .icon-wrapper svg {
+  fill: #fff;
+}
+
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &.selected {
+    background: linear-gradient(135deg, #ff7b00, #ff9f40);
+    border-color: transparent;
+    color: #fff;
+
+    .icon-wrapper svg {
+      fill: #fff;
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #fff;
+}

@@ -22,6 +22,12 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
+interface WorkoutTypeOption {
+  type: WorkoutType;
+  label: string;
+  svg: string;
+}
+
 @Component({
   selector: 'app-workout-dialog',
   templateUrl: './workout-dialog.component.html',
@@ -48,23 +54,45 @@ import { ModalController } from '@ionic/angular';
   ],
     providers: [ModalController]
 })
+
+
 export class WorkoutDialogComponent  implements OnInit {
+
+  
 
  @Input() day!: string;
   @Input() workout?: Workout;
   @Output() save = new EventEmitter<Workout>();
   @Output() close = new EventEmitter<void>();
 
-  type: WorkoutType = 'running';
+
+ type: WorkoutType = 'running';
   comments = '';
   blocks: any[] = [];
 
-  types: { type: WorkoutType, label: string, icon: string }[] = [
-    { type: 'rest', label: 'Descanso', icon: 'moon-outline' },
-    { type: 'running', label: 'Carrera', icon: 'walk-outline' },
-    { type: 'cycling', label: 'Bici', icon: 'bicycle-outline' },
-    { type: 'swimming', label: 'Natación', icon: 'water-outline' }
+  types: WorkoutTypeOption[] = [
+    {
+      type: 'rest',
+      label: 'Descanso',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" ...></svg>`,
+    },
+    {
+      type: 'running',
+      label: 'Carrera',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" ...></svg>`,
+    },
+    {
+      type: 'cycling',
+      label: 'Bici',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" ...></svg>`,
+    },
+    {
+      type: 'swimming',
+      label: 'Natación',
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" ...></svg>`,
+    },
   ];
+
 
   constructor(private modalCtrl: ModalController) {}
 

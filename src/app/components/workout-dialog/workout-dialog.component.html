@@ -8,16 +8,22 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <h2 class="text-center">Tipo de entrenamiento</h2>
 
-  <ion-segment [(ngModel)]="type">
-    <ion-segment-button *ngFor="let t of types" [value]="t.type">
-      <ion-icon [name]="t.icon"></ion-icon>
-      {{ t.label }}
-    </ion-segment-button>
-  </ion-segment>
+  <div class="training-grid">
+    <button
+      *ngFor="let t of types"
+      class="training-option"
+      [class.selected]="type === t.type"
+      (click)="type = t.type"
+    >
+      <div class="icon-wrapper" [innerHTML]="t.svg"></div>
+      <span>{{ t.label }}</span>
+    </button>
+  </div>
 
+  <!-- Only show blocks if not rest -->
   <div *ngIf="type !== 'rest'" class="ion-margin-top">
-
     <ion-list>
       <ion-item-divider color="light">
         <ion-label>Bloques del entrenamiento</ion-label>
@@ -26,32 +32,32 @@
       <div *ngFor="let block of blocks; let i = index" class="ion-margin-bottom ion-padding ion-border">
         <ion-item>
           <ion-label position="floating">Nombre del bloque</ion-label>
-          <ion-input [(ngModel)]="block.nombre" placeholder="Ej: Calentamiento"></ion-input>
+          <ion-input [(ngModel)]="block.nombre"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Distancia</ion-label>
-          <ion-input [(ngModel)]="block.distancia" placeholder="Ej: 1000 m, 5 km..."></ion-input>
+          <ion-input [(ngModel)]="block.distancia"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Duración</ion-label>
-          <ion-input [(ngModel)]="block.duracion" placeholder="Ej: 45 min"></ion-input>
+          <ion-input [(ngModel)]="block.duracion"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Ritmo / Zona</ion-label>
-          <ion-input [(ngModel)]="block.ritmo" placeholder="Ej: Z2, ritmo medio..."></ion-input>
+          <ion-input [(ngModel)]="block.ritmo"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Descanso</ion-label>
-          <ion-input [(ngModel)]="block.descanso" placeholder="Ej: 30'' entre series"></ion-input>
+          <ion-input [(ngModel)]="block.descanso"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Comentarios</ion-label>
-          <ion-textarea [(ngModel)]="block.comentarios" placeholder="Notas sobre técnica, sensaciones..."></ion-textarea>
+          <ion-textarea [(ngModel)]="block.comentarios"></ion-textarea>
         </ion-item>
 
         <ion-button color="danger" fill="clear" expand="block" (click)="eliminarBloque(i)">
