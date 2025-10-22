@@ -1,12 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Export Options</ion-title>
+<ion-header class="export-header text-center">
+  <ion-toolbar class="export-header">
+    <ion-title>Exportar entrenamiento</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="close()">Back</ion-button>
+      <ion-button fill="clear" color="light" (click)="close()">Volver</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content class="ion-padding">
   <div #preview [innerHTML]="previewHTML" class="pdf-preview"></div>
@@ -16,7 +15,7 @@
     Enviar por WhatsApp
   </ion-button>
 
-  <ion-button expand="block" color="primary" (click)="exportToPDF()">
+  <ion-button expand="block" color="tertiary" (click)="exportToPDF()">
     <ion-icon name="download-outline" slot="start"></ion-icon>
     Descargar PDF
   </ion-button>

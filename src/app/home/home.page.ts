@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonHeader, IonToolbar, IonTitle, IonContent, ModalController, IonFab, IonFabButton, IonIcon  } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, ModalController, IonFab, IonFabButton, IonIcon, IonFooter, IonButton } from '@ionic/angular/standalone';
 import { Workout } from '../model/workout.model';
 import { addWeeks, subWeeks, startOfWeek, endOfWeek, format } from 'date-fns';
 import { WeekHeaderComponent } from '../components/week-header/week-header.component';
@@ -15,7 +15,7 @@ const DAYS = ["LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES", "SÁBADO", "
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle,
+  imports: [IonButton, IonFooter, IonHeader, IonToolbar, IonTitle,
      IonContent, CommonModule,
       WeekHeaderComponent,
       DayCardComponent,
