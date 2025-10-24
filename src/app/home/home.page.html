@@ -15,11 +15,15 @@
     </app-day-card>
   </div>
 
- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="success" (click)="openExportModal()">
-      <ion-icon name="share-social-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" color="success" (click)="openExportModal()">
+      <ion-icon name="share-social-outline" slot="start"></ion-icon>
+      Exportar el entrenamiento
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+
 
 
 </ion-content>
