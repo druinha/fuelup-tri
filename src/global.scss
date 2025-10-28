@@ -47,3 +47,17 @@ ion-button.nav-btn ion-icon {
   fill: #fff !important;
   --ionicon-stroke-width: 48px; /* makes it bolder */
 }
+
+/* Safe area handling for status bar */
+ion-app {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Ensure ion-content respects safe areas */
+ion-content {
+  --padding-top: env(safe-area-inset-top);
+  --padding-bottom: env(safe-area-inset-bottom);
+}
