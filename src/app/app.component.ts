@@ -16,7 +16,15 @@ export class AppComponent {
   ) {
     this.platform.ready().then(() => {
       this.initializeStatusBar();
+      this.addAndroidClass();
     });
+  }
+
+  addAndroidClass() {
+    if (this.platform.is('android')) {
+      document.body.classList.add('isAndroid');
+      console.log('Added isAndroid class to body');
+    }
   }
 
   async initializeStatusBar() {
