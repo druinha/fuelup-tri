@@ -192,42 +192,6 @@ export class ExportDialogComponent {
     return doc;
   }
 
-  /** ✅ Export PDF to Downloads (Android) / FileSaver (iOS) / jsPDF (Web) */
-async exportToPDF() {
-  const doc = this.buildPDF();
-  const pdfName = `Entrenamientos_${this.formatDate(this.weekStart, 'dd-MM-yyyy')}.pdf`;
-
-  const pdfBlob = doc.output('blob');
-  const reader = new FileReader();
-  reader.readAsDataURL(pdfBlob);
-
-  reader.onloadend = async () => {
-    const base64data = (reader.result as string).split(',')[1];
-
-    if (this.platform.is('android')) {
-      try {
-        // Save to Downloads using scoped storage
-        const file = await Filesystem.writeFile({
-          path: `Download/${pdfName}`,
-          data: base64data,
-          directory: Directory.ExternalStorage,
-          recursive: true,
-          encoding: 'base64' as Encoding
-        });
-        console.log('PDF saved to Downloads:', file.uri);
-
-      } catch (e) {
-        console.error('Error saving PDF:', e);
-      }
-    } else if (this.platform.is('ios')) {
-      saveAs(pdfBlob, pdfName);
-    } else {
-      doc.save(pdfName);
-    }
-  };
-}
-
-
 
   /** ✅ Share via WhatsApp */
    async sharePDF() {

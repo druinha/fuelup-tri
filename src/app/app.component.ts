@@ -25,8 +25,11 @@ export class AppComponent {
         // Set status bar style
         await StatusBar.setStyle({ style: Style.Dark });
         
-        // Set status bar background color to match your app theme
-        await StatusBar.setBackgroundColor({ color: '#1976d2' });
+        // Set status bar background to transparent
+        await StatusBar.setBackgroundColor({ color: '#00000000' });
+        
+        // Enable overlay mode for transparent status bar
+        await StatusBar.setOverlaysWebView({ overlay: true });
         
         // Show the status bar
         await StatusBar.show();
