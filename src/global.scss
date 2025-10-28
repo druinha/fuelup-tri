@@ -50,14 +50,33 @@ ion-button.nav-btn ion-icon {
 
 /* Safe area handling for status bar */
 ion-app {
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+  /* Use env() with larger fallback for top to avoid content being too close to status bar
+     and handle devices with front cameras/notches. Bottom fallback remains conservative. */
+  padding-top: env(safe-area-inset-top, 40px);
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 /* Ensure ion-content respects safe areas */
 ion-content {
-  --padding-top: env(safe-area-inset-top);
-  --padding-bottom: env(safe-area-inset-bottom);
+  --padding-top: env(safe-area-inset-top, 40px);
+  --padding-bottom: env(safe-area-inset-bottom, 12px);
+  /* also set explicit bottom padding for any content containers */
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}
+
+/* Apply safe-area padding to common bottom UI elements (tab bars, footers, toolbars)
+   so fixed bottom controls won't be covered by the system navigation bar. */
+ion-footer,
+ion-tab-bar,
+ion-toolbar[slot="bottom"],
+.bottom-bar,
+.app-bottom-bar {
+  padding-bottom: env(safe-area-inset-bottom, 12px);
+}
+
+/* Ensure body also has a conservative bottom padding as a last-resort fallback */
+body {
+  padding-bottom: env(safe-area-inset-bottom, 12px);
 }

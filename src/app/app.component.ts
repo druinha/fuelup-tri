@@ -22,10 +22,10 @@ export class AppComponent {
   async initializeStatusBar() {
     if (this.platform.is('capacitor')) {
       try {
-        // Set status bar style
-        await StatusBar.setStyle({ style: Style.Dark });
+        // Set status bar style to light (white text/icons) for better visibility on transparent background
+        await StatusBar.setStyle({ style: Style.Light });
         
-        // Set status bar background to transparent
+        // Set status bar background to completely transparent
         await StatusBar.setBackgroundColor({ color: '#00000000' });
         
         // Enable overlay mode for transparent status bar
